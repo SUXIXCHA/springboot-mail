@@ -1,5 +1,6 @@
 package com.jeff.springbootmail.service.impl;
 
+import com.jeff.springbootmail.constant.ProductCategory;
 import com.jeff.springbootmail.dao.ProductDao;
 import com.jeff.springbootmail.dto.ProductRequest;
 import com.jeff.springbootmail.model.Product;
@@ -15,8 +16,8 @@ public class ProductServiceImpl implements ProductService {
    private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts() {
-        return productDao.getProducts();
+    public List<Product> getProducts(ProductCategory category,String search) {
+        return productDao.getProducts(category,search);
     }
 
     @Override
