@@ -4,8 +4,12 @@ import com.jeff.springbootmail.dto.ProductRequest;
 import com.jeff.springbootmail.model.Product;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public interface ProductService  {
+
+    List<Product> getProducts();
     Product getProductById(Integer productId );
 
     Integer createProduct(ProductRequest productRequest);
