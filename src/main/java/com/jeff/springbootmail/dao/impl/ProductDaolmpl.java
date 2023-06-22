@@ -77,7 +77,7 @@ public class ProductDaolmpl implements ProductDao {
 
         map.put("productName",productRequest.getProductName());
         map.put("category",productRequest.getCategory().toString());
-        map.put("imageUrl",productRequest.getCategory());
+        map.put("imageUrl",productRequest.getImageUrl());
         map.put("price",productRequest.getPrice());
         map.put("stock",productRequest.getStock());
         map.put("description",productRequest.getDescription());
@@ -85,5 +85,15 @@ public class ProductDaolmpl implements ProductDao {
         map.put("lastModifiedDate",new Date());
         namedParameterJdbcTemplate.update(sql, map);
 
+    }
+
+    @Override
+    public void deleteProductById(Integer productId) {
+        String sql = "DELETE FROM product WHERE product_id= :productId";
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("productId",productId);
+
+        namedParameterJdbcTemplate.update(sql,map);
     }
 }
