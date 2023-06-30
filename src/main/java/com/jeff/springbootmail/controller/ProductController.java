@@ -5,6 +5,7 @@ import com.jeff.springbootmail.dto.ProductQueryParams;
 import com.jeff.springbootmail.dto.ProductRequest;
 import com.jeff.springbootmail.model.Product;
 import com.jeff.springbootmail.service.ProductService;
+import com.jeff.springbootmail.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +23,12 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(
+    public ResponseEntity<Page<Product>> getProducts(
+
             //查詢條件
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search,
+
             //排序
             @RequestParam(defaultValue = "created_date") String orderBy,
             @RequestParam(defaultValue = "desc") String sort,
@@ -45,8 +48,19 @@ public class ProductController {
         productQueryParams.setLimit(limit);
         productQueryParams.setOffset(offset);
 
+        //取得 product List
         List<Product> productList = productService.getProducts(productQueryParams);
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+
+        //取得總筆數
+        Integer total = productService.countProduct(productQueryParams);
+        //分頁
+        Page<Product> page= new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        page.setResults(productList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
 
